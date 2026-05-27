@@ -1,0 +1,18 @@
+version: "3.4"
+
+services:
+  catalogdb:
+    container_name: catalogdb
+    image: postgres:15.3
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Dev123
+      POSTGRES_DB: CatalogDb
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_catalog:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_catalog:
