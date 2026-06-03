@@ -1,10 +1,9 @@
-using Catalog.API.Data;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add service to the container
 
 var assembly = typeof(Program).Assembly;
 
@@ -23,10 +22,10 @@ builder.Services.AddMarten(opts =>
 {
     opts.Connection(builder.Configuration.GetConnectionString("Database")!);
     //opts.AutoCreateSchemaObjects = AutoCreate.All;
+    opts.Schema.For<ShoppingCart>().Identity(x => x.UserName);
 }).UseLightweightSessions();
 
-if (builder.Environment.IsDevelopment())
-    builder.Services.InitializeMartenWith<CatalogInitialData>();
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
@@ -35,7 +34,8 @@ builder.Services.AddHealthChecks()
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
+
 
 app.MapCarter();
 
