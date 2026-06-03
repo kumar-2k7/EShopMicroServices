@@ -13,6 +13,27 @@ services:
     volumes:
       - postgres_catalog:/var/lib/postgresql/data
     restart: always
+    
+  basketdb:
+    container_name: basketdb
+    image: postgres:15.3
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Dev123
+      POSTGRES_DB: BasketDb
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_basket:/var/lib/postgresql/data
+    restart: always
+
+  catalog.api:
+    image: ${DOCKER_REGISTRY-}catalogapi
+    build:
+      context: .
+      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+    restart: always
 
 volumes:
   postgres_catalog:
+  postgres_basket:
