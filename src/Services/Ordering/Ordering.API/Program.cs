@@ -9,15 +9,26 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddApplicationServices()
     .AddInfrastructureServices(builder.Configuration)
-    .AddApiServices();
+    .AddApiServices(builder.Configuration);
+
+// Add services to the container.
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
+
+app.MapOpenApi();
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.UseApiServices();
 
-if(app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-   await app.InitialiseDatabaseAsync();
+    await app.InitialiseDatabaseAsync();
 }
 
 // Configure the HTTP request pipeline.

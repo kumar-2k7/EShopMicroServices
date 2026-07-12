@@ -25,6 +25,7 @@
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(cardName);
             ArgumentException.ThrowIfNullOrWhiteSpace(cardNumber);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(cardNumber.Length, 24);
             ArgumentException.ThrowIfNullOrWhiteSpace(cvv);
             ArgumentOutOfRangeException.ThrowIfGreaterThan(cvv.Length, 3);
 
